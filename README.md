@@ -1,6 +1,7 @@
 # Sorts
-Bubble Sort  
-Insertion Sort  
-Merge Sort  
-Selection Sort  
-Quick Sort  
+BubbleSort  
+InsertionSort  
+ShellSort  
+MergeSort  
+SelectionSort  
+QuickSort
