@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Random;
 
 public class Sorts {
@@ -7,38 +6,44 @@ public class Sorts {
     private static final int MAX_RANDOM_INT = 100_000;
 
     public static void main(String[] args) {
-        int[] arr = generateArray(ARRAY_SIZE, MAX_RANDOM_INT);
+        int[] array = generateArray(ARRAY_SIZE, MAX_RANDOM_INT);
         long startTime, endTime;
 
-        // BUBBLE SORT
+        // BUBBLE_SORT
         startTime = System.currentTimeMillis();
-        bubbleSort(arr.clone());
+        bubbleSort(array.clone());
         endTime = System.currentTimeMillis();
-        printResult("Bubble Sort", endTime - startTime);
+        printResult("BubbleSort", endTime - startTime);
 
-        // INSERTION SORT
+        // INSERTION_SORT
         startTime = System.currentTimeMillis();
-        insertionSort(arr.clone());
+        insertionSort(array.clone());
         endTime = System.currentTimeMillis();
-        printResult("Insertion Sort", endTime - startTime);
+        printResult("InsertionSort", endTime - startTime);
 
-        // MERGE SORT
+        // SHELL_SORT
         startTime = System.currentTimeMillis();
-        mergeSort(arr.clone());
+        shellSort(array.clone());
         endTime = System.currentTimeMillis();
-        printResult("Merge Sort", endTime - startTime);
+        printResult("ShellSort", endTime - startTime);
 
-        // SELECTION SORT
+        // MERGE_SORT
         startTime = System.currentTimeMillis();
-        selectionSort(arr.clone());
+        mergeSort(array.clone());
         endTime = System.currentTimeMillis();
-        printResult("Selection Sort", endTime - startTime);
+        printResult("MergeSort", endTime - startTime);
 
-        // QUICK SORT
+        // SELECTION_SORT
         startTime = System.currentTimeMillis();
-        quickSort(arr.clone(), 0, arr.length - 1);
+        selectionSort(array.clone());
         endTime = System.currentTimeMillis();
-        printResult("Quick Sort", endTime - startTime);
+        printResult("SelectionSort", endTime - startTime);
+
+        // QUICK_SORT
+        startTime = System.currentTimeMillis();
+        quickSort(array.clone(), 0, array.length - 1);
+        endTime = System.currentTimeMillis();
+        printResult("QuickSort", endTime - startTime);
     }
 
     private static void printResult(String sortName, long timeMillis) {
@@ -55,7 +60,7 @@ public class Sorts {
         return array;
     }
 
-    // BUBBLE SORT
+    // BUBBLE_SORT
     private static void bubbleSort(int[] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array.length - 1; j++) {
@@ -68,7 +73,7 @@ public class Sorts {
         }
     }
 
-    // INSERTION SORT
+    // INSERTION_SORT
     private static void insertionSort(int[] array) {
         for (int i = 1; i < array.length; i++) {
             int current = array[i];
@@ -83,12 +88,86 @@ public class Sorts {
         }
     }
 
-    // MERGE SORT
-    private static void mergeSort(int[] array) {
-        Arrays.sort(array);
+    // SHELL_SORT
+    private static void shellSort(int[] array) {
+        int n = array.length;
+
+        for (int gap = n / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < n; i++) {
+                int temp = array[i];
+
+                int j;
+                for (j = i; j >= gap && array[j - gap] > temp; j -= gap)
+                    array[j] = array[j - gap];
+
+                array[j] = temp;
+            }
+        }
+
     }
 
-    // SELECTION SORT
+    // MERGE_SORT
+    private static void mergeSort(int[] array) {
+
+        int length = array.length;
+        if (length <= 1) return;
+
+        int middle = length / 2;
+        int[] leftArray = new int[middle];
+        int[] rightArray = new int[length - middle];
+
+        int left = 0;
+        int right = 0;
+
+        for (; left < length; left++) {
+            if (left < middle) {
+                leftArray[left] = array[left];
+            } else {
+                rightArray[right] = array[left];
+                right++;
+            }
+        }
+
+        mergeSort(leftArray);
+        mergeSort(rightArray);
+        merge(leftArray, rightArray, array);
+
+    }
+
+    private static void merge(int[] leftArray, int[] rightArray, int[] array) {
+
+        int leftSize = array.length / 2;
+        int rightSize = array.length - leftSize;
+
+        int i = 0, left = 0, right = 0;
+
+        while (left < leftSize && right < rightSize) {
+            if (leftArray[left] < rightArray[right]) {
+                array[i] = leftArray[left];
+                i++;
+                left++;
+            } else {
+                array[i] = rightArray[right];
+                i++;
+                right++;
+            }
+        }
+
+        while (left < leftSize) {
+            array[i] = leftArray[left];
+            i++;
+            left++;
+        }
+
+        while (right < rightSize) {
+            array[i] = rightArray[right];
+            i++;
+            right++;
+        }
+
+    }
+
+    // SELECTION_SORT
     private static void selectionSort(int[] array) {
         for (int i = 0; i < array.length - 1; i++) {
             int min_index = i;
@@ -100,7 +179,7 @@ public class Sorts {
         }
     }
 
-    // QUICK SORT
+    // QUICK_SORT
     private static void quickSort(int[] array, int start, int end) {
         if (end <= start) return;
 
