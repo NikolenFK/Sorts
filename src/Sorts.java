@@ -5,17 +5,6 @@ import java.util.Scanner;
  * The Sorts class contains various sorting algorithms and a main method to test their performance.
  */
 public class Sorts {
-
-    /**
-     * The size of the array to be sorted.
-     */
-    private static int ARRAY_SIZE;
-
-    /**
-     * The maximum random integer value for array elements.
-     */
-    private static int MAX_RANDOM_INT;
-
     /**
      * The scanner.
      */
@@ -30,11 +19,13 @@ public class Sorts {
     public static void main(String[] args) {
 
         System.out.print("Enter the size of the array: ");
-        ARRAY_SIZE = SCANNER.nextInt();
+        int array_size = SCANNER.nextInt();
         System.out.print("Enter an integer max: ");
-        MAX_RANDOM_INT = SCANNER.nextInt();
-        int[] array = generateArray(ARRAY_SIZE, MAX_RANDOM_INT);
-        long startTime, endTime;
+        int max_random_int = SCANNER.nextInt();
+        int[] array = generateArray(array_size, max_random_int);
+        long time, startTime, endTime;
+
+        time = System.currentTimeMillis();
 
         // BUBBLE_SORT
         startTime = System.currentTimeMillis();
@@ -71,6 +62,8 @@ public class Sorts {
         quickSort(array.clone(), 0, array.length - 1);
         endTime = System.currentTimeMillis();
         printResult("QuickSort", endTime - startTime);
+
+        System.out.println("\nOverall time: " + (System.currentTimeMillis() - time));
     }
 
     /**
